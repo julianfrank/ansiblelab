@@ -1,0 +1,21 @@
+- name: Create a VM from a template
+  vmware_guest:
+    validate_certs: no
+    folder: /testvms
+    name: testvm_2
+    state: poweredon
+    template: template_el7
+    disk:
+    - size_gb: 10
+      type: thin
+      datastore: g73_datastore
+    hardware:
+      memory_mb: 512
+      num_cpus: 1
+      scsi: paravirtual
+    networks:
+    - name: VM Network
+      mac: aa:bb:dd:aa:00:14
+    wait_for_ip_address: yes
+  delegate_to: localhost
+  register: deploy
