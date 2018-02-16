@@ -1,0 +1,60 @@
+---
+- hosts: v
+  gather_facts: false
+  connection: local
+  user: remote
+  become: true
+
+  vars_prompt:
+    - name: "vcenter_hostname"
+      prompt: "Enter vcenter hostname"
+      private: no
+      default: "10.10.12.125"
+    - name: "vcenter_user"
+      prompt: "Enter vcenter username"
+      private: no
+      default: "administrator@hxdp.local"
+    - name: "vcenter_pass"
+      prompt: "Enter vcenter password"
+      private: yes
+ 
+
+  vars:
+    datacenter: "CONV-HX-DC"
+    esxi_host: "10.10.12.121"
+    notes: 'Created by Anush'
+    disk: "10"
+    datastore: "HXDP-DS02"
+    network: "vm-network-113"
+    memory: "512MB"
+    cpucount: "1"
+    osid: "CONVHXM006_TESTING"
+
+
+  tasks:
+    - vsphere_guest:
+        vcenter_hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_user }}"
+        password: "{{ vcenter_pass }}"
+        guest: "{{ inventory_hostname }}"
+        state: present
+        vm_extra_config:
+          notes: "{{ notes }}"
+        vm_disk:
+          disk1:
+            size_gb: "{{ disk }}"
+            type: thin
+            datastore: "{{ datastore }}"
+        vm_nic:
+          nic1:
+            type: vmxnet3
+            network: "{{ network }}"
+            network_type: standard
+        vm_hardware:
+          memory_mb: "{{ memory }}"
+          num_cpus: "{{ cpucount }}"
+          osid: "{{ osid }}"
+          scsi: paravirtual
+        #esxi:
+          #datacenter: "{{ datacenter }}"
+          #hostname: "{{ esxi_host }}"
