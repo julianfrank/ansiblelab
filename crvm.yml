@@ -21,7 +21,7 @@
 
   vars:
     datacenter: "CONV-HX-DC"
-    esxi_host: "10.10.12.121"
+    esxi_host: "10.10.12.125"
     notes: 'Created by Anush'
     disk: "10"
     datastore: "HXDP-DS02"
@@ -55,6 +55,6 @@
           num_cpus: "{{ cpucount }}"
           osid: "{{ osid }}"
           scsi: paravirtual
-        #esxi:
-          #datacenter: "{{ datacenter }}"
-          #hostname: "{{ esxi_host }}"
+        esxi:
+          datacenter: "{{ datacenter }}"
+          hostname: "{{ esxi_host }}"
